@@ -1,4 +1,9 @@
-"use strict";
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/*!*********************!*\
+  !*** ./src/main.js ***!
+  \*********************/
+
 
 const EVENTS_COUNT = 3;
 
@@ -195,3 +200,7 @@ const eventsListElement = dayContainerElement.querySelector(`.trip-events__list`
 for (let i = 0; i < EVENTS_COUNT; i++) {
   render(eventsListElement, createEventItemTemplate(), `afterbegin`);
 }
+
+/******/ })()
+;
+//# sourceMappingURL=bundle.js.map
