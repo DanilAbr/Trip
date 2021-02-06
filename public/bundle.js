@@ -195,4 +195,3 @@ const eventsListElement = dayContainerElement.querySelector(`.trip-events__list`
 for (let i = 0; i < EVENTS_COUNT; i++) {
   render(eventsListElement, createEventItemTemplate(), `afterbegin`);
 }
-
