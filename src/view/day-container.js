@@ -1,3 +1,5 @@
+import {createElement} from '../util';
+
 const getCurrentDate = (dateObj) => {
   return new Intl.DateTimeFormat(`en`, {
     month: `short`,
@@ -9,7 +11,7 @@ const getDatetime = (dateObj) => {
   return dateObj.toISOString().slice(0, 10);
 };
 
-export const createDayContainerTemplate = (dateObj, index) => {
+const createDayContainerTemplate = (dateObj, index) => {
   const dayDate = getCurrentDate(dateObj);
   const datetime = getDatetime(dateObj);
 
@@ -22,3 +24,27 @@ export const createDayContainerTemplate = (dateObj, index) => {
     </li>`
   );
 };
+
+export default class DayContainerView {
+  constructor(dateObj, index) {
+    this._date = dateObj;
+    this._index = index;
+    this._element = null;
+  }
+
+  _getTemplate() {
+    return createDayContainerTemplate(this._date, this._index);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this._getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

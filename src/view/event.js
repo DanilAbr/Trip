@@ -1,4 +1,4 @@
-import {capitalizeString} from '../util';
+import {capitalizeString, createElement} from '../util';
 import {TYPE_TO_ARTICLE} from '../const';
 
 const getTime = (date) => {
@@ -22,29 +22,29 @@ const getDuration = (start, end) => {
           ${minutes ? `${minutes}M` : ``}`;
 };
 
-const getOffersItemTemplate = (offers) => {
-  return offers.map((offer) => {
-    return (
-      `<li class="event__offer">
-        <span class="event__offer-title">${offer.name}</span>
-        &plus;
-        &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
-      </li>`
-    );
-  }).join(``);
+const getOffersItemTemplate = (offer) => {
+  return (
+    `<li class="event__offer">
+      <span class="event__offer-title">${offer.name}</span>
+      &plus;
+      &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
+    </li>`
+  );
 };
 
 const getOffersListTemplate = (offers) => {
+  const offerItems = offers.map((offer) => getOffersItemTemplate(offer)).join(``);
+
   return (
     `<ul class="event__selected-offers">
-      ${getOffersItemTemplate(offers)}
+      ${offerItems}
     </ul>`
   );
 };
 
 const getDatetime = (date) => new Date(date).toISOString().slice(0, 16);
 
-export const createEventItemTemplate = (event) => {
+const createEventTemplate = (event) => {
   const {
     type,
     city,
@@ -93,3 +93,26 @@ export const createEventItemTemplate = (event) => {
     </li>`
   );
 };
+
+export default class EventView {
+  constructor(event) {
+    this._event = event;
+    this._element = null;
+  }
+
+  _getTemplate() {
+    return createEventTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this._getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
