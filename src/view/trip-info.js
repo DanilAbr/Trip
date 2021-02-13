@@ -1,4 +1,4 @@
-import {getLastItem} from '../util';
+import {createElement, getLastItem} from '../util';
 
 const getFormattedDate = (date) => {
   return new Intl.DateTimeFormat(`en`, {
@@ -55,18 +55,25 @@ const getRoute = (events) => {
   return ``;
 };
 
-export const createTripInfoTemplate = (events) => {
-  const totalPrice = events.reduce((total, event) => total + event.basePrice, 0);
+const createInfoMainTemplate = (events) => {
   const dates = getDates(events);
   const route = getRoute(events);
 
   return (
-    `<section class="trip-main__trip-info  trip-info">
-      <div class="trip-info__main">
-        <h1 class="trip-info__title">${route}</h1>
+    `<div class="trip-info__main">
+      <h1 class="trip-info__title">${route}</h1>
+      <p class="trip-info__dates">${dates}</p>
+    </div>`
+  );
+};
 
-        <p class="trip-info__dates">${dates}</p>
-      </div>
+const createTripInfoTemplate = (events) => {
+  const totalPrice = events.reduce((total, event) => total + event.basePrice, 0);
+  const infoMainTemplate = events.length ? createInfoMainTemplate(events) : ``;
+
+  return (
+    `<section class="trip-main__trip-info  trip-info">
+      ${infoMainTemplate}
 
       <p class="trip-info__cost">
         Total: &euro;&nbsp;<span class="trip-info__cost-value">${totalPrice}</span>
@@ -74,3 +81,26 @@ export const createTripInfoTemplate = (events) => {
     </section>`
   );
 };
+
+export default class TripInfoView {
+  constructor(events) {
+    this._events = events;
+    this._element = null;
+  }
+
+  _getTemplate() {
+    return createTripInfoTemplate(this._events);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this._getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

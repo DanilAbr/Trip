@@ -1,4 +1,9 @@
-const EVENTS_COUNT = 3;
+const EVENTS_COUNT = 22;
+const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`,
+};
+
 const TYPE_TO_ARTICLE = {
   'taxi': `to`,
   'bus': `to`,
@@ -44,6 +49,7 @@ const MAX_OFFERS = 3;
 const MAX_PHOTOS = 3;
 
 export {
+  RenderPosition,
   EVENTS_COUNT,
   TYPE_TO_ARTICLE,
   CITIES,

@@ -38,7 +38,7 @@ const getPhotos = () => {
 
 const getOffers = () => [...new Set(getRandomItems(MIN_OFFERS, MAX_OFFERS, OFFER_TYPES))];
 
-const createTripPoint = () => {
+const createEvent = () => {
   const type = getRandomItem(Object.keys(TYPE_TO_ARTICLE));
   const city = getRandomItem(CITIES);
   const offers = getOffers();
@@ -65,5 +65,5 @@ const createTripPoint = () => {
 };
 
 export {
-  createTripPoint,
+  createEvent,
 };
