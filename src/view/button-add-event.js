@@ -1,4 +1,4 @@
-import {createElement} from '../util';
+import Abstract from './abstract';
 
 export const createButtonNewEventTemplate = () => {
   return (
@@ -6,24 +6,8 @@ export const createButtonNewEventTemplate = () => {
   );
 };
 
-export default class ButtonNewEventView {
-  constructor() {
-    this._element = null;
-  }
-
+export default class ButtonNewEventView extends Abstract {
   _getTemplate() {
     return createButtonNewEventTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this._getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

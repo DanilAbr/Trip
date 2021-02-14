@@ -1,10 +1,19 @@
-import {RenderPosition} from './const';
+import {RenderPosition} from '../const';
+import Abstract from '../view/abstract';
 
 const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const getRandomItem = (items) => items[getRandomNumber(0, items.length - 1)];
 const capitalizeString = (string) => string[0].toUpperCase() + string.slice(1);
 
 const render = (container, element, place) => {
+  if (container instanceof Abstract) {
+    container = container.getElement();
+  }
+
+  if (element instanceof Abstract) {
+    element = element.getElement();
+  }
+
   switch (place) {
     case RenderPosition.AFTERBEGIN:
       container.prepend(element);
@@ -12,6 +21,24 @@ const render = (container, element, place) => {
     case RenderPosition.BEFOREEND:
       container.append(element);
   }
+};
+
+const replace = (newChild, oldChild) => {
+  if (oldChild instanceof Abstract) {
+    oldChild = oldChild.getElement();
+  }
+
+  if (newChild instanceof Abstract) {
+    newChild = newChild.getElement();
+  }
+
+  const parent = oldChild.parentElement;
+
+  if (parent === null || newChild === null) {
+    throw new Error(`Can't replace unexisting elements`);
+  }
+
+  parent.replaceChild(newChild, oldChild);
 };
 
 const createElement = (template) => {
@@ -50,4 +77,5 @@ export {
   getRandomItems,
   getRandomTimeMs,
   getLastItem,
+  replace
 };

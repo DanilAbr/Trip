@@ -48,7 +48,14 @@ const MIN_OFFERS = 0;
 const MAX_OFFERS = 3;
 const MAX_PHOTOS = 3;
 
+const SortType = {
+  DEFAULT: `default`,
+  PRICE: `price`,
+  TIME: `time`,
+};
+
 export {
+  SortType,
   RenderPosition,
   EVENTS_COUNT,
   TYPE_TO_ARTICLE,

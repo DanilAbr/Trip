@@ -1,4 +1,4 @@
-import {getRandomItem, getRandomItems, getRandomNumber, getRandomTimeMs} from '../util';
+import {getRandomItem, getRandomItems, getRandomNumber, getRandomTimeMs} from '../utils/common';
 import {
   CITIES,
   DESCRIPTION_SENTENCES,

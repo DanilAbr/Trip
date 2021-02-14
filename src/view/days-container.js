@@ -1,29 +1,7 @@
-import {createElement} from '../util';
+import Abstract from './abstract';
 
-const createDaysContainerTemplate = () => {
-  return (
-    `<ul class="trip-days"></ul>`
-  );
-};
-
-export default class DaysContainerView {
-  constructor() {
-    this._element = null;
-  }
-
+export default class DaysContainerView extends Abstract {
   _getTemplate() {
-    return createDaysContainerTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this._getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+    return `<ul class="trip-days"/>`;
   }
 }
