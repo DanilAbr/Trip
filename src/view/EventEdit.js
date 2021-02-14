@@ -1,4 +1,4 @@
-import {createElement} from '../util';
+import Abstract from './abstract';
 
 const createEventEditTemplate = () => {
   return (
@@ -178,24 +178,33 @@ const createEventEditTemplate = () => {
   );
 };
 
-export default class EventEditView {
+export default class EventEditView extends Abstract {
   constructor() {
-    this._element = null;
+    super();
+    this._saveClickHandler = this._saveClickHandler.bind(this);
+    this._rollupBtnClickHandler = this._rollupBtnClickHandler.bind(this);
   }
 
-  getTemplate() {
+  _getTemplate() {
     return createEventEditTemplate();
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _saveClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
   }
 
-  removeElement() {
-    this._element = null;
+  setSaveClickHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`.event--edit`).addEventListener(`submit`, this._saveClickHandler);
+  }
+
+  _rollupBtnClickHandler() {
+    this._callback.rollupBtnClick();
+  }
+
+  setRollupClickHandler(callback) {
+    this._callback.rollupBtnClick = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._rollupBtnClickHandler);
   }
 }

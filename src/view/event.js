@@ -1,26 +1,7 @@
-import {capitalizeString, createElement} from '../util';
+import {capitalizeString} from '../utils/common';
 import {TYPE_TO_ARTICLE} from '../const';
-
-const getTime = (date) => {
-  return new Intl.DateTimeFormat(`ru`, {
-    hour: `numeric`,
-    minute: `numeric`,
-  }).format(new Date(date));
-};
-
-const getDuration = (start, end) => {
-  const endMs = new Date(end).getTime();
-  const startMs = new Date(start).getTime();
-  const durationMs = endMs - startMs;
-
-  const days = Math.floor(durationMs / (1000 * 60 * 60 * 24));
-  const hours = Math.floor(durationMs / (1000 * 60 * 60) % 24);
-  const minutes = Math.floor(durationMs / (1000 * 60)) % 60;
-
-  return `${days ? `${days}D` : ``}
-          ${hours ? `${hours}H` : ``}
-          ${minutes ? `${minutes}M` : ``}`;
-};
+import Abstract from './abstract';
+import {getDatetime, getFormattedDuration, getTime} from '../utils/event';
 
 const getOffersItemTemplate = (offer) => {
   return (
@@ -42,8 +23,6 @@ const getOffersListTemplate = (offers) => {
   );
 };
 
-const getDatetime = (date) => new Date(date).toISOString().slice(0, 16);
-
 const createEventTemplate = (event) => {
   const {
     type,
@@ -57,7 +36,7 @@ const createEventTemplate = (event) => {
   const eventTitle = `${typeCapitalize} ${TYPE_TO_ARTICLE[type]} ${city}`;
   const timeFrom = getTime(dateFrom);
   const timeTo = getTime(dateTo);
-  const duration = getDuration(dateFrom, dateTo);
+  const duration = getFormattedDuration(dateFrom, dateTo);
   const offersList = getOffersListTemplate(offers);
   const datetimeFrom = getDatetime(dateFrom);
   const datetimeTo = getDatetime(dateFrom);
@@ -94,25 +73,24 @@ const createEventTemplate = (event) => {
   );
 };
 
-export default class EventView {
+export default class EventView extends Abstract {
   constructor(event) {
+    super();
     this._event = event;
-    this._element = null;
+
+    this._rollupClickHandler = this._rollupClickHandler.bind(this);
   }
 
   _getTemplate() {
     return createEventTemplate(this._event);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this._getTemplate());
-    }
-
-    return this._element;
+  _rollupClickHandler() {
+    this._callback.rollupBtnClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setRollupBtnClickHandler(callback) {
+    this._callback.rollupBtnClick = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._rollupClickHandler);
   }
 }
